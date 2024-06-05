@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lead;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewContact;
+
 
 class LeadController extends Controller
 {
@@ -37,8 +40,14 @@ class LeadController extends Controller
             return response()->json(compact('success', 'errors'));
         }
 
+        // salvo i dati nel db
+        $new_lead = new Lead();
+        $new_lead->fill($data);
+        $new_lead->save();
 
 
+        // invio l'email
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new NewContact($new_lead));
 
 
         $success = true;

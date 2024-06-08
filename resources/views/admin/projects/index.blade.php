@@ -64,7 +64,7 @@
 
                             <td>{{ $project->link }}</td>
 
-                            <td>{{ $project->description }}</td>
+                            <td class="">{{ $project->description }}</td>
 
                             <td class="py-4">
                                 <div class="d-flex">

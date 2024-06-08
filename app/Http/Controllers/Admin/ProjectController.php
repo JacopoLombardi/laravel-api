@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Type;
 use App\Models\Technology;
 use App\Http\Requests\ProjectRequest;
+use App\Functions\Helper;
 
 class ProjectController extends Controller
 {
@@ -49,6 +50,8 @@ class ProjectController extends Controller
         if($exist){
             return redirect()->route('admin.projects.create')->with('error', 'Progetto già esistente');
         }else{
+            $form_data['slug'] = Helper::createSlug($form_data['title'], Project::class);
+
             $new_project = new Project();
             $new_project->fill($form_data);
             $new_project->save();
@@ -87,20 +90,16 @@ class ProjectController extends Controller
     {
         $form_data = $request->all();
 
-        $exist = Project::where('title', $request->title)->first();
-        if($exist){
-            return redirect()->route('admin.projects.edit', $project)->with('error', 'Progetto non modificato perchè già esistente');
+        $project->update($form_data);
+
+        if(array_key_exists('technologies', $form_data)){
+            $project->technologies()->sync($form_data['technologies']);
         }else{
-            $project->update($form_data);
-
-            if(array_key_exists('technologies', $form_data)){
-                $project->technologies()->sync($form_data['technologiesw']);
-            }else{
-                $project->technologies()->detach();
-            }
-
-            return redirect()->route('admin.projects.show', $project)->with('success', 'Progetto modificato correttamente');
+            $project->technologies()->detach();
         }
+
+        return redirect()->route('admin.projects.show', $project)->with('success', 'Progetto modificato correttamente');
+
     }
 
     /**

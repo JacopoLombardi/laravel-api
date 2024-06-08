@@ -22,5 +22,5 @@ class Project extends Model
     }
 
 
-    protected $fillable = ['title', 'link', 'type_id', 'description'];
+    protected $fillable = ['title', 'link', 'slug', 'type_id', 'description'];
 }

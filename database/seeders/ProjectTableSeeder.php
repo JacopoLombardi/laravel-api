@@ -23,6 +23,7 @@ class ProjectTableSeeder extends Seeder
             $new_project->type_id = Type::inRandomOrder()->first()->id;
             $new_project->title = $faker->sentence(3);
             $new_project->slug = Helper::createSlug($new_project->title, Project::class);
+            $new_project->link = $faker->sentence();
             $new_project->description = $faker->text();
 
             $new_project->save();

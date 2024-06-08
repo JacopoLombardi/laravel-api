@@ -46,6 +46,15 @@
                     <h6 class="text-danger">{{ $message }}</h6>
                 @enderror
 
+
+                <input
+                class="form-control w-50 mt-3 @error ('link') is-invalid @enderror" placeholder="Link"
+                type="text"
+                name="link"
+                value="{{ old('link') }}"
+                >
+
+
                 {{-- selezione del Type tramite select --}}
                 <select class="form-select w-50 mt-3" name="type_id">
                     <option value="">Selected Type</option>

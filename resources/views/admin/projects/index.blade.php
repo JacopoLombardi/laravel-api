@@ -20,10 +20,12 @@
         @endif
 
 
-        {{-- messaggio in caso di aggiunta corretta di un Project --}}
-        @if (session('error'))
-            <div class="alert alert-danger text-center w-50 mb-5" role="alert">
-                {{ session('error') }}
+        {{-- messaggio in caso di eliminazione di un Project --}}
+        @if (session('success'))
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-danger text-center w-50 mb-5" role="alert">
+                    {{ session('success') }}
+                </div>
             </div>
         @endif
         {{-- /////////////////// --}}
@@ -36,6 +38,7 @@
                         <th scope="col">Titolo</th>
                         <th scope="col">Type</th>
                         <th scope="col">Technology</th>
+                        <th scope="col">Link al Progetto</th>
                         <th scope="col">Descrizione</th>
                         <th scope="col">Azioni</th>
                     </tr>
@@ -51,13 +54,15 @@
 
 
                             {{-- tramite Many to Many ricavo i Technologies da assegnare ad ogni Project tramite un ciclo each con condizione --}}
-                            <td>
+                            <td class="col-2">
                                 @forelse ($project->technologies as $technology)
                                     <span class="badge text-bg-warning">{{ $technology->name }}</span>
                                 @empty
                                     <span class="badge text-bg-danger">Empty</span>
                                 @endforelse
                             </td>
+
+                            <td>{{ $project->link }}</td>
 
                             <td>{{ $project->description }}</td>
 
